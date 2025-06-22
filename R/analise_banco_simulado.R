@@ -1,15 +1,16 @@
 library(mirt)
 library(data.table)
 
-dados <- fread('dados/banco_simulado.csv')
+# dados_sim <- fread('https://raw.githubusercontent.com/alexandrejaloto/DIF_avaliacao_educacional/refs/heads/master/dados/banco_simulado.csv')
+dados_sim <- fread('dados/banco_simulado.csv')
 
-grupo <- rep (c('G1', 'G2'), c(1000, 1000))
+# grupo <- rep (c('G1', 'G2'), c(1000, 1000))
 
-pars <- multipleGroup(dados, 1, group = grupo,
+pars <- multipleGroup(dados_sim[,1:45], 1, group = dados_sim$grupo,
                      pars = 'values',
                      itemtype = '3PL', TOL = .01,
                      invariance = c('free_means', 'free_var',
-                                    colnames(dados)))
+                                    colnames(dados_sim)[1:45]))
 
 
 pars[pars$name == 'a1', 'prior.type'] <- 'lnorm'
@@ -21,11 +22,11 @@ pars[pars$name == 'g', 'prior_1'] <- 5
 pars[pars$name == 'g', 'prior_2'] <- 17
 pars[pars$name == 'g', 'value'] <- .2
 
-fit1 <- multipleGroup(dados, 1, group = grupo,
+fit1 <- multipleGroup(dados_sim[,1:45], 1, group = dados_sim$grupo,
                       pars = pars,
                       itemtype = '3PL', TOL = .01,
                       invariance = c('free_means', 'free_var',
-                                     colnames(dados)))
+                                     colnames(dados_sim)[1:45]))
 
 coef(fit1, IRTpars = TRUE, simplify = TRUE)
 
@@ -35,11 +36,11 @@ dif.rmsd
 dif.rmsd <- mirt::RMSD_DIF(fit1, flag = .1)
 dif.rmsd
 
-fit2 <- multipleGroup(dados, 1, group = grupo,
+fit2 <- multipleGroup(dados_sim[,1:45], 1, group = dados_sim$grupo,
                       pars = pars,
                       itemtype = '3PL', TOL = .01,
                       invariance = c('free_means', 'free_var',
-                                     colnames(dados)[-c(1, 2)]))
+                                     colnames(dados_sim)[c(3:45)]))
 
 coef(fit2, IRTpars = TRUE, simplify = TRUE)
 

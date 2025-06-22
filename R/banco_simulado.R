@@ -22,5 +22,7 @@ sim1 = simdata (a1, d1, guess = c, 1000, modelo)
 sim2 = simdata (a2, d2, guess = c, 1000, modelo)
 dados = data.frame(rbind (sim1, sim2))
 
+dados$grupo <- rep (c('G1', 'G2'), c(1000, 1000))
+
 data.table::fwrite(dados, 'dados/banco_simulado.csv')
 
