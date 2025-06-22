@@ -84,8 +84,8 @@ data_reg <- data.frame(mirt::key2binary(data_reg$respostas[,-1], data_reg$gabari
 data_dig <- data.frame(mirt::key2binary(data_dig$respostas[,-1], data_dig$gabarito))
 
 # nomear os grupos
-data_reg$group <- 'REG'
-data_dig$group <- 'DIG'
+data_reg$grupo <- 'REG'
+data_dig$grupo <- 'DIG'
 
 data_dig <- cbind(data_dig, micro.ns_dig$NU_INSCRICAO)
 
